@@ -3,8 +3,11 @@ package com.websarva.wings.android.listviewsample2
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import java.text.FieldPosition
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +21,18 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, menuList)
         //リストビューにアダプタオブジェクトを設定
         lvMenu.adapter = adapter
+        //リストビューにリスナを設定
+        lvMenu.onItemClickListener = ListItemClickListener()
     }
+
+    // リストがタップされたときの処理が記述されたメンバクラス
+    private inner class ListItemClickListener : AdapterView.OnItemClickListener {
+        override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            // 注文確認ダイアログフラグメントオブジェクトを生成
+            val dialogFragment = OrderConfirmDialogFragment()
+            // ダイアログ表示
+            dialogFragment.show(supportFragmentManager, "OrderConfirmDialogFragment")
+        }
+    }
+
 }
